@@ -6,8 +6,10 @@ import pandas as pd
 from groq import Groq
 import spacy
 
+nlp = spacy.load('en_core_web_sm')
 
 client = Groq(api_key= st.secrets["groq_passkey"])
+
 
 
 st.title("Interactive Selection")
@@ -34,16 +36,21 @@ def file_reader(file):
         return pd.read_excel(file)
 
 
+def nlp_search(text, word):
+    doc = nlp(text)
+    for token in doc:
+        if word.lower() == token.lower():
+            return True
+        return False
 
 def my_search(keyword):
-    if "Skill" in st.session_state.df.columns:
-        filtered_df = st.session_state.df[st.session_state.df["Skill"].str.contains(keyword,case = False, na= False)]
-        return filtered_df
-    elif "Skills" in st.session_state.df.columns:
-        filtered_df = st.session_state.df[st.session_state.df["Skills"].str.contains(keyword,case = False, na= False)]
+    if "Skill" or "Skills" in st.session_state.df.columns:
+        filtered_df = st.session_state.df[st.session_state.df["Skill"].apply(nlp_search,word = keyword)]
         return filtered_df
     else:
         st.error("The given file does not contain a skill column.")
+
+
 
 if uploaded_file:
     st.write("File preview")
@@ -82,7 +89,7 @@ if user_prompt:
 
     Question to respond: {user_prompt}
 
-    Present the records with all relevant and unchanged details in a tabular format.
+    Present the records with all relevant details in a tabular format.
     
     """
     chat = client.chat.completions.create(

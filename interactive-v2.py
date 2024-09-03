@@ -4,6 +4,7 @@
 import streamlit as st
 import pandas as pd
 from groq import Groq
+print("Hi spacy")
 
 client = Groq(api_key= st.secrets["groq_passkey"])
 
@@ -98,3 +99,5 @@ if user_prompt:
 
     with st.chat_message("assistant"):
         st.markdown(assistant_response)
+
+

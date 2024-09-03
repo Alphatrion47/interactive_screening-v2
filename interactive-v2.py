@@ -4,7 +4,8 @@
 import streamlit as st
 import pandas as pd
 from groq import Groq
-print("Hi spacy")
+import spacy
+
 
 client = Groq(api_key= st.secrets["groq_passkey"])
 

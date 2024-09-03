@@ -39,13 +39,16 @@ def file_reader(file):
 def nlp_search(text, word):
     doc = nlp(text)
     for token in doc:
-        if word.lower() == token.lower():
+        if word.lower() == token.text.lower():
             return True
         return False
 
 def my_search(keyword):
-    if "Skill" or "Skills" in st.session_state.df.columns:
+    if "Skill" in st.session_state.df.columns:
         filtered_df = st.session_state.df[st.session_state.df["Skill"].apply(nlp_search,word = keyword)]
+        return filtered_df
+    elif "Skills" in st.session_state.df.columns:
+        filtered_df = st.session_state.df[st.session_state.df["Skills"].apply(nlp_search,word = keyword)]
         return filtered_df
     else:
         st.error("The given file does not contain a skill column.")

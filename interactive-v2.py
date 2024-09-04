@@ -41,7 +41,6 @@ def nlp_search(text, word):
     for token in doc:
         if word.lower() == token.text.lower():
             return True
-        return False
 
 def my_search(keyword):
     if "Skill" in st.session_state.df.columns:

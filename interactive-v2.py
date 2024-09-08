@@ -37,15 +37,15 @@ def file_reader(file):
 
 
 def nlp_search(text, word):
-    return any(word.lower == token.text.lower() for token in nlp(text))
+    return any(word.lower() == token.text.lower() for token in nlp(text))
 
 def my_search(keyword):
     if "Skill" in st.session_state.df.columns:
-        filtered_df = st.session_state.df[st.session_state.df["Skill"].map(lambda x : nlp_search(x,word =keyword) if pd.notnull(x) else False)]
-        return filtered_df
+        return st.session_state.df[st.session_state.df["Skill"].map(lambda x : nlp_search(x,word =keyword) if pd.notnull(x) else False)]
+        
     elif "Skills" in st.session_state.df.columns:
-        filtered_df = st.session_state.df[st.session_state.df["Skills"].map(lambda x : nlp_search(x,word =keyword) if pd.notnull(x) else False)]
-        return filtered_df
+        return st.session_state.df[st.session_state.df["Skills"].map(lambda x : nlp_search(x,word =keyword) if pd.notnull(x) else False)]
+    
     else:
         st.error("The given file does not contain a skill column.")
 

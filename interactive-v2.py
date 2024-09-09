@@ -40,7 +40,7 @@ def file_reader(file):
 
 
 def nlp_search(text, word):
-    return any(word.lower() == stemmer.stem(token.text) for token in nlp(text))
+    return any(stemmer.stem(word) == stemmer.stem(token.text) for token in nlp(text))
 
 def my_search(keyword):
     if "Skill" in st.session_state.df.columns:

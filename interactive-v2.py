@@ -46,7 +46,13 @@ abbreviations={
 }
 
 def nlp_search(text, word):
-    return any(stemmer.stem(abbreviations.get(word,word)) == stemmer.stem(abbreviations.get(token.text,token.text)) for token in nlp(text))
+
+    word = abbreviations.get(word.lower(),word.lower())
+
+    for token in nlp(text):
+        if stemmer.stem(abbreviations.get(token.text.lower(),token.text.lower())) == stemmer.stem(word):
+            return True
+    return False
 
 def my_search(keyword):
     if "Skill" in st.session_state.df.columns:

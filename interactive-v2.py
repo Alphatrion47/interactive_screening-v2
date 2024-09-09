@@ -38,9 +38,15 @@ def file_reader(file):
     else:
         return pd.read_excel(file)
 
+abbreviations={
+    "ml" : "machine learning",
+    "ai" : "artificial intelligence",
+    "nlp" : "natural language processing",
+    "eda" : "exploratory data analysis"
+}
 
 def nlp_search(text, word):
-    return any(stemmer.stem(word) == stemmer.stem(token.text) for token in nlp(text))
+    return any(stemmer.stem(abbreviations.get(word,word)) == stemmer.stem(abbreviations.get(token.text,token.text)) for token in nlp(text))
 
 def my_search(keyword):
     if "Skill" in st.session_state.df.columns:

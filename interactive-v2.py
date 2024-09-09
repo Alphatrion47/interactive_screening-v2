@@ -5,8 +5,11 @@ import streamlit as st
 import pandas as pd
 from groq import Groq
 import spacy
+from nltk.stem.snowball import SnowballStemmer
 
 nlp = spacy.load('en_core_web_sm')
+
+stemmer = SnowballStemmer("english")
 
 client = Groq(api_key= st.secrets["groq_passkey"])
 
@@ -37,7 +40,7 @@ def file_reader(file):
 
 
 def nlp_search(text, word):
-    return any(word.lower() == token.text.lower() for token in nlp(text))
+    return any(word.lower() == stemmer.stem(token.text) for token in nlp(text))
 
 def my_search(keyword):
     if "Skill" in st.session_state.df.columns:

@@ -26,8 +26,6 @@ if "df" not in st.session_state:
 if "keyword" not in st.session_state:
     st.session_state.keyword = None
 
-
-
 user_prompt = None
 
 uploaded_file = st.file_uploader("Choose a file with candidate information. Acceptable formates are excel and csv:",type =["csv","xlsx","xls"])
@@ -42,15 +40,15 @@ abbreviations={
     "ml" : "machine learning",
     "ai" : "artificial intelligence",
     "nlp" : "natural language processing",
-    "eda" : "exploratory data analysis"
+    "eda" : "exploratory data analysis",
+    "aiml" : "AI/ML"
 }
 
 def nlp_search(text, word):
-
-    word = abbreviations.get(word.lower(),word.lower())
-
     for token in nlp(text):
         if stemmer.stem(abbreviations.get(token.text.lower(),token.text.lower())) == stemmer.stem(word):
+            return True
+        elif stemmer.stem(abbreviations.get(token.text.lower(),token.text.lower())) == stemmer.stem(abbreviations.get(word,word)):
             return True
     return False
 
@@ -103,7 +101,7 @@ if user_prompt:
 
     Question to respond: {user_prompt}
 
-    Present the records with all relevant details in a tabular format.
+    If retreval of records is required, present the records with all relevant details in a tabular format.
     
     """
     chat = client.chat.completions.create(

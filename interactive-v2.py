@@ -46,9 +46,10 @@ abbreviations={
 
 def nlp_search(text, word):
     for token in nlp(text):
-        if stemmer.stem(abbreviations.get(token.text.lower(),token.text.lower())) == stemmer.stem(word):
+        my_token = abbreviations.get(token.text.lower(),token.text.lower())
+        if stemmer.stem(my_token) == stemmer.stem(word.lower()):
             return True
-        elif stemmer.stem(abbreviations.get(token.text.lower(),token.text.lower())) == stemmer.stem(abbreviations.get(word,word)):
+        elif stemmer.stem(my_token) == stemmer.stem(abbreviations.get(word.lower(),word.lower())):
             return True
     return False
 

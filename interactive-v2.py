@@ -1,4 +1,4 @@
-## Screening functionality alone
+## Screening functionality alone with excel and csv
 # Primary search with spacy
 
 import streamlit as st
@@ -31,10 +31,12 @@ user_prompt = None
 uploaded_file = st.file_uploader("Choose a file with candidate information. Acceptable formates are excel and csv:",type =["csv","xlsx","xls"])
 
 def file_reader(file):
+
     if file.name.endswith(".csv"):
         return pd.read_csv(file)
     else:
         return pd.read_excel(file)
+
 
 abbreviations={
     "ml" : "machine learning",

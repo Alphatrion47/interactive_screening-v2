@@ -1,7 +1,6 @@
 ## Screening functionality alone with excel and csv
 # Primary search with spacy
 
-import os
 import streamlit as st
 import pandas as pd
 from groq import Groq
@@ -12,7 +11,7 @@ nlp = spacy.load('en_core_web_sm')
 
 stemmer = SnowballStemmer("english")
 
-client = Groq(api_key=os.environ.get("GROQ_API_KEY"), )
+client = Groq(api_key= st.secrets["groq_passkey"])
 
 
 

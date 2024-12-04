@@ -1,6 +1,7 @@
 ## Screening functionality alone with excel and csv
 # Primary search with spacy
 
+import os
 import streamlit as st
 import pandas as pd
 from groq import Groq
@@ -11,7 +12,7 @@ nlp = spacy.load('en_core_web_sm')
 
 stemmer = SnowballStemmer("english")
 
-client = Groq(api_key= st.secrets["groq_passkey"])
+client = Groq(api_key=os.environ.get("GROQ_API_KEY"), )
 
 
 
@@ -38,7 +39,7 @@ def file_reader(file):
         return pd.read_excel(file)
 
 
-abbreviations={
+st.session_state.abbreviations={
     "ml" : "machine learning",
     "ai" : "artificial intelligence",
     "nlp" : "natural language processing",
@@ -48,10 +49,10 @@ abbreviations={
 
 def nlp_search(text, word):
     for token in nlp(text):
-        my_token = abbreviations.get(token.text.lower(),token.text.lower())
+        my_token = st.session_state.abbreviations.get(token.text.lower(),token.text.lower())
         if stemmer.stem(my_token) == stemmer.stem(word.lower()):
             return True
-        elif stemmer.stem(my_token) == stemmer.stem(abbreviations.get(word.lower(),word.lower())):
+        elif stemmer.stem(my_token) == stemmer.stem(st.session_state.abbreviations.get(word.lower(),word.lower())):
             return True
     return False
 

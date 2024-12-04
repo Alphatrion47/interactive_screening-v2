@@ -11,8 +11,14 @@ nlp = spacy.load('en_core_web_sm')
 
 stemmer = SnowballStemmer("english")
 
-client = Groq(api_key=st.secrets["groq_passkey"])
-
+try:
+    api_key = st.secrets["groq_passkey"]
+    print(f"API key retrieved: {api_key[:5]}...") # Print first 5 characters to verify
+    client = Groq(api_key=api_key)
+except KeyError:
+    st.error("Failed to retrieve API key from secrets.")
+except Exception as e:
+    st.error(f"Error initializing Groq client: {str(e)}")
 
 
 st.title("Interactive Selection")

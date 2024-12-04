@@ -11,7 +11,7 @@ nlp = spacy.load('en_core_web_sm')
 
 stemmer = SnowballStemmer("english")
 
-client = Groq(api_key= st.secrets["groq_passkey"])
+client = Groq(api_key=st.secrets["groq_passkey"])
 
 
 
